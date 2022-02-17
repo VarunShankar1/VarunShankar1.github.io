@@ -1,0 +1,35 @@
+* {
+    background-color: #E5F8FF;
+}
+
+img {
+    width: 400px
+}
+
+header {
+    color: #031D6A;
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+}
+
+p {
+    color: #2d0430
+}
+
+.overview {
+    font-family: 'Merriweather', serif;
+    font-weight: 200
+}
+
+.Seasons h3 {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #850700;
+}
+
+.Seasons p {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+}
