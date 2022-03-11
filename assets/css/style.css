@@ -1,3 +1,38 @@
-h1{
-    color: red;
+h1 {
+    color: #C4BBAB;
+    text-align: center;
 }
+
+p {
+    color: #0E0E52;
+}
+
+img {
+    padding: 10px 0;
+}
+
+header{
+    background-color: #0b0b42;
+}
+
+body {
+    background-color: #C4BBAB;
+}
+
+.nav-link {
+    text-transform: uppercase;
+    font-size: .95em;
+    color: #C4BBAB;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 100;
+    letter-spacing: 2px;
+    padding: 10px;
+    background-color: #0b0b42;
+}
+
+.nav-link:hover{
+    color: #5F5644;
+}
+
+
+B7AD99 - khaki 0E0E52 - midnight blue 5F5644 - dark choc (dark khaki) C4BBAB - pale khaki
