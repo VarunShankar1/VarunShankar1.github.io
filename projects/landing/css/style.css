@@ -50,3 +50,9 @@ footer {
 .block img {
     padding: 10px 0;
 }
+
+@media (max-width:450px) {
+    h1 {
+        color: red
+    }
+}
