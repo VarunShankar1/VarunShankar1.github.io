@@ -7,8 +7,17 @@ p {
     color: #0E0E52;
 }
 
+li {
+    color: #0E0E52;
+}
+
+.heading {
+    text-align: center;
+}
+
 img {
     padding: 10px 0;
+    width: 100%;
 }
 
 header {
