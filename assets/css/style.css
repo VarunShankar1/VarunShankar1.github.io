@@ -11,6 +11,17 @@ li {
     color: #0E0E52;
 }
 
+.position {
+    text-align: center;
+    display: inline;
+}
+
+.card {
+    padding: 30px;
+    background-color: #0b0b42;
+    border-color: #0b0b42;
+}
+
 .heading {
     text-align: center;
 }
@@ -40,5 +51,5 @@ body {
 }
 
 .nav-link:hover {
-    color: #5F5644;
+    color: #6B604C;
 }
