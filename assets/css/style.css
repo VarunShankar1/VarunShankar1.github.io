@@ -22,6 +22,7 @@ h2 {
     padding: 30px;
     background-color: #0b0b42;
     border-color: #0b0b42;
+    text-align: center;
 }
 
 .heading {
@@ -67,4 +68,16 @@ body {
 .pdfresume {
     text-align: center;
     font-size: 16px;
+}
+
+.card-title, .card-text {
+    color: #C4BBAB;
+}
+
+.btn {
+    background-color: #6B604C
+}
+
+.btn-primary {
+    color: white;
 }
