@@ -11,9 +11,11 @@ li {
     color: #0E0E52;
 }
 
-.position {
+h2 {
+    color: #0E0E52;
+    font-size: 30px;
     text-align: center;
-    display: inline;
+    font-weight: 700;
 }
 
 .card {
@@ -52,4 +54,17 @@ body {
 
 .nav-link:hover {
     color: #6B604C;
+}
+
+
+@media(max-width:500px) {
+    .comp, .posit, .time {
+        text-align: left;
+        line-height: 1.5;
+    }
+}
+
+.pdfresume {
+    text-align: center;
+    font-size: 16px;
 }
