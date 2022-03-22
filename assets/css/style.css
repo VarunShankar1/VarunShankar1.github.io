@@ -56,6 +56,18 @@ body {
     color: #6B604C;
 }
 
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.mid {
+    text-align: center;
+}
+
 @media(max-width:500px) {
 
     .left, .mid, .right {
