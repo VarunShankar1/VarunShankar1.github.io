@@ -56,9 +56,9 @@ body {
     color: #6B604C;
 }
 
-
 @media(max-width:500px) {
-    .comp, .posit, .time {
+
+    .left, .mid, .right {
         text-align: left;
         line-height: 1.5;
     }
@@ -79,4 +79,8 @@ body {
 
 .btn-primary {
     color: white;
+}
+
+.contactinfo {
+    text-align: center;
 }
