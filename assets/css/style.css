@@ -44,6 +44,7 @@ header {
 
 body {
     background-color: #C4BBAB;
+    padding: 0 0 40px 0;
 }
 
 .nav-link {
@@ -63,7 +64,8 @@ body {
 
 .pdfresume {
     text-align: center;
-    font-size: 16px;
+    font-size: .8em;
+    line-height: 4;
 }
 
 .card-title, .card-text {
@@ -95,4 +97,22 @@ body {
 
 .contactinfo {
     text-align: center;
+}
+
+.headshot {
+    max-width: 500px;
+    margin: 0 auto;
+    display: block;
+}
+
+a {
+    color: #0b0b42;
+}
+
+a:hover {
+    color: #6B604C;
+}
+
+.contactinfo h2 {
+    font-size: 1em;
 }
