@@ -22,7 +22,10 @@ h2 {
     background-color: #0b0b42;
     border-color: #0b0b42;
     text-align: center;
+    margin: 0 0 20px 0;
+    min-height: 450px;
 }
+
 
 .heading {
     text-align: center;
@@ -35,6 +38,8 @@ img {
 
 header {
     background-color: #0b0b42;
+    padding: 20px 0 0 0;
+    margin: 0 0 20px 0;
 }
 
 body {
@@ -56,26 +61,6 @@ body {
     color: #6B604C;
 }
 
-.left {
-    text-align: left;
-}
-
-.right {
-    text-align: right;
-}
-
-.mid {
-    text-align: center;
-}
-
-@media(max-width:500px) {
-
-    .left, .mid, .right {
-        text-align: left;
-        line-height: 1.5;
-    }
-}
-
 .pdfresume {
     text-align: center;
     font-size: 16px;
@@ -85,12 +70,27 @@ body {
     color: #C4BBAB;
 }
 
+.card-title {
+    font-size: 1em;
+    padding: 0 0 20px 0;
+}
+
 .btn {
-    background-color: #6B604C
+    background-color: #6B604C;
 }
 
 .btn-primary {
     color: white;
+    border: 0;
+    bottom: 10px;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+}
+
+.btn-primary:hover {
+    background: #C4BBAB;
+    color: #0b0b42;
 }
 
 .contactinfo {
