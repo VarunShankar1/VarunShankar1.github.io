@@ -1,0 +1,50 @@
+.fwdtable table{
+    border-spacing: 0 15px;
+    border-collapse: separate;
+    margin-left: 25%;
+}
+.dpairtable table{
+    border-spacing: 0 15px;
+    border-collapse: separate;
+    margin-left: 33%;
+}
+.fwdtable td, th {
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+.dpairtable td, th {
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+
+/* 
+.dpairs {
+     color: black;
+ }
+ .dpairs table{
+    width: 100px;
+ }
+  .rostertable table {
+    text-align: center;
+    width: 90%;
+  }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 0 15px;
+      }
+      th {
+        background-color: #4287f5;
+        color: white;
+      }
+      th, td {
+        width: 150px;
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+      } */
