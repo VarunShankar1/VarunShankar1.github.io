@@ -1,3 +1,36 @@
-.standing{
-    text-align: center
+.standings{
+    margin-bottom: 10%;
+}
+header{
+    background-color: #001829;
+    color: white;
+}
+.fwdtable table{
+    border-spacing: 0 15px;
+    border-collapse: separate;
+    margin-left: 25%;
+}
+.dpairtable table{
+    border-spacing: 0 15px;
+    border-collapse: separate;
+    margin-left: 33%;
+}
+.fwdtable td, th {
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+.dpairtable td, th {
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+body {
+    background-color: #D6EEFF;
+}
+.teamtext {
+    width: 70%;
+    text-align: center;
 }
