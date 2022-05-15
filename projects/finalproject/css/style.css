@@ -1,36 +1,128 @@
+/* font-family: 'Lato', sans-serif; 300 400 700 */
+
+header{
+    background-color: #001829;
+    color: #D6EEFF;
+    padding: 3% 0%;
+    margin-bottom: 5%;
+}
+header h1 {
+    margin-left: 5%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+body {
+    background-color: #D6EEFF;
+}
 .standings{
     margin-bottom: 10%;
 }
-header{
-    background-color: #001829;
-    color: white;
+header a{
+    margin-left: 5%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: #D6EEEF;
+}
+header a:hover {
+    color: #3F9EA2;
+}
+.standings li a{
+    font-size: 1.5em;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: #001829;
+}
+.standings li a:hover{
+    color: #3F9EA2;
+}
+.fullarticle p {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: #001829;
+    font-size: 1.2em;
+}
+img{
+    margin-top: 50px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    width: auto;
+}
+.caption {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: .9em;
 }
 .fwdtable table{
-    border-spacing: 0 15px;
+    border-spacing: 0px 10px;
+    margin: 0 20%;
     border-collapse: separate;
-    margin-left: 25%;
-}
-.dpairtable table{
-    border-spacing: 0 15px;
-    border-collapse: separate;
-    margin-left: 33%;
 }
 .fwdtable td, th {
     width: 150px;
     text-align: center;
     border: 1px solid black;
     padding: 5px;
+    color: #001829;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
 }
+
+.dpairtable table{
+    border-spacing: 0 10px;
+    border-collapse: separate;
+    margin: 0 29%;
+}
+
 .dpairtable td, th {
     width: 150px;
     text-align: center;
     border: 1px solid black;
     padding: 5px;
+    color: #001829;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
 }
-body {
-    background-color: #D6EEFF;
+.goalietable table{
+    border-spacing: 0 10px;
+    border-collapse: separate;
+    margin: 0 37%;
 }
-.teamtext {
-    width: 70%;
+
+.goalietable td, th {
+    width: 150px;
     text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+    color: #001829;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
 }
+.teambreakdown {
+    margin-top: 2%;
+    margin-right: 30%;
+}
+.teamtext p{
+    text-align: center;
+    margin: 3% 10%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+footer {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 1.1em;
+}
+footer a{
+    color: #001829;
+}
+footer a:hover{
+    color: #3F9EA2;
+}
+@media (max-width:450px){
+    img{
+        width: 0px;
+    }
+    /* need to center forward and d=pair tables for small and middle, need to move graph to center */
+}
+
+
