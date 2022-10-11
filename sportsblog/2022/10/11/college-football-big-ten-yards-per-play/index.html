@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>College Football Yards Per Play - A Hugo website</title>
+<meta property="og:title" content="College Football Yards Per Play - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">College Football Yards Per Play</h1>
+
+    
+    <span class="article-date">2022-10-11</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard
+## 
+## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>cfb21 &lt;- read.csv(&quot;~/Documents/GitHub/jour479x_fall_2022/data/footballlogs21.csv&quot;) %&gt;% 
+  filter(Conference == &quot;Big Ten Conference&quot;) %&gt;% 
+  group_by(TeamFull) %&gt;% 
+  summarize(totalgames = n(), totalplays = sum(OffensivePlays)) %&gt;% 
+  mutate(playspergame = totalplays/totalgames)</code></pre>
+<p>For this first section, I loaded in the 2021 game logs data and filtered out all teams except for those in the Big Ten. I then grouped the total games and the total offensive plays ran in each game for each of the 14 Big Ten teams. Then, I found how many plays were ran per game.</p>
+<p>The graph below sorts the teams from highest to lowest in plays per game. The teams at the top of this list, Purdue, Maryland, Penn State and Ohio State, are all high-tempo teams. Maryland and Ohio State had good quarterbacks and threw the ball last year. Iowa, a team known for being conservative offensively, is at the bottom.</p>
+<pre class="r"><code>ggplot() + 
+  geom_bar(
+    data=cfb21, 
+    aes(
+      x=reorder(TeamFull, `playspergame`), 
+      weight=`playspergame`
+      )
+    ) +
+    scale_y_continuous(labels=comma) +   
+    labs(
+    title=&quot;Offensive plays per game in 2021 for Big Ten football teams&quot;, 
+    x=&quot;Team&quot;, 
+    y=&quot;Offensive plays per game&quot;
+) +
+    coord_flip() +
+  theme_minimal()</code></pre>
+<p><img src="https://VarunShankar1.github.io/2022/10/11/college-football-big-ten-yards-per-play/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>cfb22 &lt;- read.csv(&quot;~/Documents/GitHub/jour479x_fall_2022/data/footballlogs22.csv&quot;) %&gt;% 
+  filter(Conference == &quot;Big Ten Conference&quot;) %&gt;% 
+  group_by(TeamFull) %&gt;% 
+  summarize(totalgames = n(), totalplays = sum(OffensivePlays)) %&gt;% 
+  mutate(playspergame = totalplays/totalgames)
+
+ggplot() + 
+  geom_bar(
+    data=cfb22, 
+    aes(
+      x=reorder(TeamFull, `playspergame`), 
+      weight=`playspergame`
+      )
+    ) +
+    scale_y_continuous(labels=comma) +   
+    labs(
+    title=&quot;Offensive plays per game in 2022 for Big Ten football teams&quot;, 
+    x=&quot;Team&quot;, 
+    y=&quot;Offensive plays per game&quot;
+) +
+    coord_flip() +
+  theme_minimal()</code></pre>
+<p><img src="https://VarunShankar1.github.io/2022/10/11/college-football-big-ten-yards-per-play/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+This year, the Indiana Hoosiers are tops in plays per game. This tracks, on Tuesday Mike Locksley said they play with a high tempo. Maryland is now at the bottom, which again tracks as the Terps have emphasized their running game. Iowa is once again the bottom — an embodiment of an extremely conservative offense. Northwestern is very high, which is interesting considering they were closer to the bottom last season, signifying a potential shift in Pat Fitzgerald’s approach.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
