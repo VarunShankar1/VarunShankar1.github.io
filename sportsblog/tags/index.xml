@@ -2,62 +2,62 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on A Hugo website</title>
-    <link>https://VarunShankar1.github.io/tags/</link>
+    <link>https://VarunShankar1.github.io/sportsblog/tags/</link>
     <description>Recent content in Tags on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>college</title>
-      <link>https://VarunShankar1.github.io/tags/college/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/tags/college/</link>
       <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://VarunShankar1.github.io/tags/college/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/tags/college/</guid>
       <description></description>
     </item>
     
     <item>
       <title>football</title>
-      <link>https://VarunShankar1.github.io/tags/football/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/tags/football/</link>
       <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://VarunShankar1.github.io/tags/football/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/tags/football/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sports</title>
-      <link>https://VarunShankar1.github.io/tags/sports/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/tags/sports/</link>
       <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://VarunShankar1.github.io/tags/sports/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/tags/sports/</guid>
       <description></description>
     </item>
     
     <item>
       <title>plot</title>
-      <link>https://VarunShankar1.github.io/tags/plot/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/tags/plot/</link>
       <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
       
-      <guid>https://VarunShankar1.github.io/tags/plot/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/tags/plot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R Markdown</title>
-      <link>https://VarunShankar1.github.io/tags/r-markdown/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/tags/r-markdown/</link>
       <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
       
-      <guid>https://VarunShankar1.github.io/tags/r-markdown/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/tags/r-markdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>regression</title>
-      <link>https://VarunShankar1.github.io/tags/regression/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/tags/regression/</link>
       <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
       
-      <guid>https://VarunShankar1.github.io/tags/regression/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/tags/regression/</guid>
       <description></description>
     </item>
     

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>football on A Hugo website</title>
-    <link>https://VarunShankar1.github.io/tags/football/</link>
+    <link>https://VarunShankar1.github.io/sportsblog/tags/football/</link>
     <description>Recent content in football on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/tags/football/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/tags/football/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>College Football Average Plays</title>
-      <link>https://VarunShankar1.github.io/2022/10/11/college-football-big-ten-yards-per-play/</link>
+      <link>https://VarunShankar1.github.io/sportsblog/2022/10/11/college-football-big-ten-yards-per-play/</link>
       <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://VarunShankar1.github.io/2022/10/11/college-football-big-ten-yards-per-play/</guid>
+      <guid>https://VarunShankar1.github.io/sportsblog/2022/10/11/college-football-big-ten-yards-per-play/</guid>
       <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.4 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(scales) ## ## Attaching package: &amp;#39;scales&amp;#39; ## ## The following object is masked from &amp;#39;package:purrr&amp;#39;: ## ## discard ## ## The following object is masked from &amp;#39;package:readr&amp;#39;: ## ## col_factor cfb21 &amp;lt;- read.</description>
     </item>
     
