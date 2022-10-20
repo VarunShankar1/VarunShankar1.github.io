@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Do high recruits lead to wins in college football? - A Hugo website</title>
+<meta property="og:title" content="Do high recruits lead to wins in college football? - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/sportsblog/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/sportsblog/css/fonts.css" media="all">
+<link rel="stylesheet" href="/sportsblog/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/sportsblog/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/sportsblog/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">Do high recruits lead to wins in college football?</h1>
+
+    
+    <span class="article-date">2022-10-20</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>team_records &lt;- read.csv(&quot;https://dwillis.github.io/sports-data-files/all_teams.csv&quot;)
+team_recruiting &lt;- read.csv(&quot;https://dwillis.github.io/sports-data-files/all_rankings.csv&quot;)
+
+records_and_recruiting = team_recruiting %&gt;% inner_join(team_records,by=c(&quot;team&quot;, &quot;year&quot;))
+
+umd &lt;- records_and_recruiting %&gt;% filter(team == &quot;Maryland&quot;)</code></pre>
+<p>Now we have a dataframe with the records and recruiting.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=records_and_recruiting, aes(x=rating, y=total_wins)) + 
+  geom_smooth(data=records_and_recruiting, aes(x=rating, y=total_wins), method=&quot;lm&quot;) +
+  geom_point(data=umd, aes(x=rating, y=total_wins), color=&quot;red&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/10/20/do-high-recruits-lead-to-wins-in-college-football/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>fit &lt;- lm(total_wins ~ rating, data = records_and_recruiting)
+summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = total_wins ~ rating, data = records_and_recruiting)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.4809 -2.0202  0.0903  2.0800  6.6666 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 0.649802   0.941570   0.690    0.491    
+## rating      0.029810   0.004038   7.382 1.16e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.806 on 348 degrees of freedom
+## Multiple R-squared:  0.1354, Adjusted R-squared:  0.1329 
+## F-statistic: 54.49 on 1 and 348 DF,  p-value: 1.161e-12</code></pre>
+<p>You see some level of an upward trajectory here, which would make sense due to the small numbers of impact freshman. In addition, programs that are getting the best recruits are usually winning a lot to attract those recruits. Maryland has been below average in recruiting ratings and wins over that time. However, in its most recent season in 2021, Maryland won 7 games to better match its reruiting rating of 231 and fit to the trend line.</p>
+<pre class="r"><code>summarized_wins_and_ratings = records_and_recruiting %&gt;% 
+  group_by(team) %&gt;% 
+  summarize(totalwins = sum(total_wins), avg_rating = mean(rating))
+
+umd &lt;- summarized_wins_and_ratings %&gt;% filter(team == &quot;Maryland&quot;)
+bama &lt;- summarized_wins_and_ratings %&gt;% filter(team == &quot;Alabama&quot;)
+
+ggplot() + 
+  geom_point(data=summarized_wins_and_ratings, aes(x=avg_rating, y=totalwins)) + 
+  geom_smooth(data=summarized_wins_and_ratings, aes(x=avg_rating, y=totalwins), method=&quot;lm&quot;) +
+  geom_point(data=umd, aes(x=avg_rating, y=totalwins), color=&quot;yellow&quot;) +
+  geom_point(data=bama, aes(x=avg_rating, y=totalwins), color=&quot;red&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/10/20/do-high-recruits-lead-to-wins-in-college-football/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>fit2 &lt;- lm(totalwins ~ avg_rating, data = summarized_wins_and_ratings)
+summary(fit2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = totalwins ~ avg_rating, data = summarized_wins_and_ratings)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -32.398  -9.657  -0.664   8.914  35.627 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -64.29546   12.03904  -5.341 1.40e-06 ***
+## avg_rating    0.47332    0.05348   8.851 1.34e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14.3 on 62 degrees of freedom
+## Multiple R-squared:  0.5582, Adjusted R-squared:  0.5511 
+## F-statistic: 78.34 on 1 and 62 DF,  p-value: 1.34e-12</code></pre>
+<p>Looking at the data when you average recruiting ratings and sum up wins for the entire time period, there’s a much more well-developed relationship between rating and wins.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/sportsblog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/sportsblog/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
