@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>First Pass Interceptions - A Hugo website</title>
+<meta property="og:title" content="First Pass Interceptions - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/sportsblog/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/sportsblog/css/fonts.css" media="all">
+<link rel="stylesheet" href="/sportsblog/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/sportsblog/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/sportsblog/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">First Pass Interceptions</h1>
+
+    
+    <span class="article-date">2022-10-18</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(cfbfastR)</code></pre>
+<pre class="r"><code>## install.packages(&quot;tictoc&quot;)
+library(tictoc)
+tictoc::tic()
+pbp &lt;- data.frame()
+seasons &lt;- 2014:cfbfastR:::most_recent_cfb_season()
+progressr::with_progress({
+
+  pbp &lt;- cfbfastR::load_cfb_pbp(seasons)
+})
+tictoc::toc() </code></pre>
+<pre><code>## 45.519 sec elapsed</code></pre>
+<p>Find first plays from scrimmage in the first half - how many are there?</p>
+<pre class="r"><code>first_play_from_scrimmage &lt;- pbp %&gt;% 
+  filter(game_play_number == 2)</code></pre>
+<p>There are 7681 since 2014 if you use gameplay == 2. I will show the same process using a different method shortly.</p>
+<p>Count the number of play types for first plays from scrimmage to start the game.</p>
+<pre class="r"><code>first_play_from_scrimmage %&gt;% 
+  group_by(play_type) %&gt;% 
+  summarize(count = n()) %&gt;% 
+  arrange(desc(count))</code></pre>
+<pre><code>## # A tibble: 20 × 2
+##    play_type                            count
+##    &lt;chr&gt;                                &lt;int&gt;
+##  1 Rush                                  3849
+##  2 Pass Reception                        2207
+##  3 Pass Incompletion                      877
+##  4 Penalty                                288
+##  5 Kickoff                                107
+##  6 Sack                                    94
+##  7 Passing Touchdown                       58
+##  8 Fumble Recovery (Opponent)              52
+##  9 Interception Return                     40
+## 10 Fumble Recovery (Own)                   35
+## 11 Rushing Touchdown                       35
+## 12 Timeout                                 16
+## 13 Kickoff Return (Offense)                14
+## 14 Punt                                    13
+## 15 Interception Return Touchdown            8
+## 16 &lt;NA&gt;                                     8
+## 17 Field Goal Good                          1
+## 18 Fumble Recovery (Opponent) Touchdown     1
+## 19 Kickoff Return Touchdown                 1
+## 20 Safety                                   1</code></pre>
+<p>There are 20 different play_types on the first plays from scrimmage.</p>
+<p>How many plays were pass plays - receptions, incompletions, sacks, interceptions - including those plays that resulted in a touchdown?</p>
+<pre class="r"><code>first_play_passes &lt;- first_play_from_scrimmage %&gt;% 
+  filter(play_type == &quot;Pass Reception&quot; | play_type == &quot;Pass Incompletion&quot; | play_type == &quot;Sack&quot; | play_type == &quot;Passing Touchdown&quot; | play_type == &quot;Interception Return&quot; | play_type == &quot;Interception Return Touchdown&quot;)</code></pre>
+<p>There were 3266 pass plays on the first plays from scrimmage.</p>
+<p>Isolate the number of first plays from scrimmage that began the game that resulted in an interception. How many are there? What percentage of all passing plays do they represent?</p>
+<pre class="r"><code>first_play_picks &lt;- first_play_from_scrimmage %&gt;% 
+  filter(play_type == &quot;Interception Return&quot; | play_type == &quot;Interception Return Touchdown&quot;)</code></pre>
+<p>There are 48 first play interceptions. They represent 1.469688 percent of all passing plays from the first plays from scrimmage.</p>
+<p>How many times has this happened each year we have data for?</p>
+<pre class="r"><code>first_play_picks %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(count=n()) %&gt;% 
+  arrange(desc(count))</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##    year count
+##   &lt;dbl&gt; &lt;int&gt;
+## 1  2015     9
+## 2  2022     9
+## 3  2016     7
+## 4  2014     6
+## 5  2017     6
+## 6  2018     4
+## 7  2019     4
+## 8  2020     2
+## 9  2021     1</code></pre>
+<p>Which teams have done it more than once?</p>
+<pre class="r"><code>first_play_picks %&gt;% 
+  group_by(pos_team) %&gt;% 
+  summarize(count=n()) %&gt;% 
+  arrange(desc(count))</code></pre>
+<pre><code>## # A tibble: 40 × 2
+##    pos_team       count
+##    &lt;chr&gt;          &lt;int&gt;
+##  1 Purdue             3
+##  2 Ball State         2
+##  3 BYU                2
+##  4 Colorado State     2
+##  5 Indiana            2
+##  6 Tulsa              2
+##  7 UAB                2
+##  8 Alabama            1
+##  9 Boston College     1
+## 10 Bowling Green      1
+## # … with 30 more rows</code></pre>
+<p>Purdue has done this three times.</p>
+<p>The other method to find the first play from scrimmage is to find the first play after a kickoff that gives the offense a first down by possession on their first drive. This play also excludes plays that are penalties.</p>
+<pre class="r"><code>first_play_from_scrimmage2 &lt;- pbp %&gt;% filter(firstD_by_poss == 1, lag_kickoff_play == 1, drive_number == 1, play_type != &#39;Penalty&#39;)</code></pre>
+<p>Count the number of play types for first plays from scrimmage to start the game.</p>
+<pre class="r"><code>first_play_from_scrimmage2 %&gt;% 
+  group_by(play_type) %&gt;% 
+  summarize(count = n()) %&gt;% 
+  arrange(desc(count))</code></pre>
+<pre><code>## # A tibble: 19 × 2
+##    play_type                            count
+##    &lt;chr&gt;                                &lt;int&gt;
+##  1 Rush                                  3573
+##  2 Pass Reception                        2074
+##  3 Pass Incompletion                      813
+##  4 Sack                                    85
+##  5 Passing Touchdown                       72
+##  6 Fumble Recovery (Opponent)              56
+##  7 Rushing Touchdown                       56
+##  8 Punt                                    54
+##  9 Interception Return                     45
+## 10 Fumble Recovery (Own)                   34
+## 11 Timeout                                 29
+## 12 Field Goal Good                         15
+## 13 Interception Return Touchdown            7
+## 14 Field Goal Missed                        2
+## 15 Safety                                   2
+## 16 Blocked Punt                             1
+## 17 Fumble Recovery (Opponent) Touchdown     1
+## 18 Punt (Safety)                            1
+## 19 Punt Return Touchdown                    1</code></pre>
+<p>There are 19 different play_types on the first plays from scrimmage.</p>
+<p>How many plays were pass plays - receptions, incompletions, sacks, interceptions - including those plays that resulted in a touchdown?</p>
+<pre class="r"><code>first_play_passes2 &lt;- first_play_from_scrimmage2 %&gt;% 
+  filter(play_type == &quot;Pass Reception&quot; | play_type == &quot;Pass Incompletion&quot; | play_type == &quot;Sack&quot; | play_type == &quot;Passing Touchdown&quot; | play_type == &quot;Interception Return&quot; | play_type == &quot;Interception Return Touchdown&quot;)</code></pre>
+<p>There were 3082 pass plays on the first plays from scrimmage.</p>
+<p>Isolate the number of first plays from scrimmage that began the game that resulted in an interception. How many are there? What percentage of all passing plays do they represent?</p>
+<pre class="r"><code>first_play_picks2 &lt;- first_play_from_scrimmage2 %&gt;% 
+  filter(play_type == &quot;Interception Return&quot; | play_type == &quot;Interception Return Touchdown&quot;)</code></pre>
+<p>There are 52 first play interceptions. They represent 1.687216 percent of all passing plays from the first plays from scrimmage.</p>
+<p>How many times has this happened each year we have data for?</p>
+<pre class="r"><code>first_play_picks2 %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(count=n()) %&gt;% 
+  arrange(desc(count))</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##    year count
+##   &lt;dbl&gt; &lt;int&gt;
+## 1  2022    12
+## 2  2015     9
+## 3  2016     7
+## 4  2014     6
+## 5  2017     6
+## 6  2018     4
+## 7  2019     4
+## 8  2020     2
+## 9  2021     2</code></pre>
+<p>Which teams have done it more than once?</p>
+<pre class="r"><code>first_play_picks2 %&gt;% 
+  group_by(pos_team) %&gt;% 
+  summarize(count=n()) %&gt;% 
+  arrange(desc(count))</code></pre>
+<pre><code>## # A tibble: 45 × 2
+##    pos_team        count
+##    &lt;chr&gt;           &lt;int&gt;
+##  1 Purdue              3
+##  2 Ball State          2
+##  3 BYU                 2
+##  4 Indiana             2
+##  5 Tulsa               2
+##  6 UAB                 2
+##  7 Alabama             1
+##  8 Bethune-Cookman     1
+##  9 Boston College      1
+## 10 Bowling Green       1
+## # … with 35 more rows</code></pre>
+<p>Purdue has done this the most, at three times.</p>
+<p>How to identify the first play from scrimmage of the second half.</p>
+<pre class="r"><code>first_play_from_scrimmagehalf2 &lt;- pbp %&gt;% 
+  filter(half_play_number == 2, half == 2)</code></pre>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/sportsblog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/sportsblog/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+

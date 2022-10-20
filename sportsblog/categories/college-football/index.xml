@@ -6,7 +6,16 @@
     <description>Recent content in College Football on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/categories/college-football/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/categories/college-football/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First Pass Interceptions</title>
+      <link>https://VarunShankar1.github.io/sportsblog/2022/10/18/first-pass-interceptions/</link>
+      <pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://VarunShankar1.github.io/sportsblog/2022/10/18/first-pass-interceptions/</guid>
+      <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.4 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(cfbfastR) ## install.packages(&amp;quot;tictoc&amp;quot;) library(tictoc) tictoc::tic() pbp &amp;lt;- data.frame() seasons &amp;lt;- 2014:cfbfastR:::most_recent_cfb_season() progressr::with_progress({ pbp &amp;lt;- cfbfastR::load_cfb_pbp(seasons) }) tictoc::toc() ## 45.</description>
+    </item>
+    
     <item>
       <title>College Football Average Plays</title>
       <link>https://VarunShankar1.github.io/sportsblog/2022/10/11/college-football-big-ten-yards-per-play/</link>
