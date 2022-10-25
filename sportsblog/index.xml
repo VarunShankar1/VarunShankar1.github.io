@@ -6,7 +6,17 @@
     <description>Recent content on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Maryland Football Yards per Play</title>
+      <link>https://VarunShankar1.github.io/sportsblog/2022/10/25/maryland-football-yards-per-play/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://VarunShankar1.github.io/sportsblog/2022/10/25/maryland-football-yards-per-play/</guid>
+      <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.4 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(ggrepel) Got data
+pxp_2011_2022 &amp;lt;- read.csv(&amp;quot;https://dwillis.github.io/sports-data-files/footballlogs1122.csv&amp;quot;) pxp_2011_2022 &amp;lt;- pxp_2011_2022 %&amp;gt;% mutate( wins = case_when( grepl(&amp;quot;W&amp;quot;, Outcome) ~ 1, grepl(&amp;quot;L&amp;quot;, Outcome) ~ 0) ) ypp &amp;lt;- pxp_2011_2022 %&amp;gt;% group_by(Team, Season) %&amp;gt;% summarise( TotalPlays = sum(OffensivePlays), TotalYards = sum(OffensiveYards), DefensivePlays = sum(DefPlays), DefensiveYards = sum(DefYards), TotalWins = sum(wins)) %&amp;gt;% mutate( OffensiveYPP = TotalYards/TotalPlays, DefensiveYPP = DefensiveYards/DefensivePlays) ## `summarise()` has grouped output by &amp;#39;Team&amp;#39;.</description>
+    </item>
+    
     <item>
       <title>Do high recruits lead to wins in college football?</title>
       <link>https://VarunShankar1.github.io/sportsblog/2022/10/20/do-high-recruits-lead-to-wins-in-college-football/</link>

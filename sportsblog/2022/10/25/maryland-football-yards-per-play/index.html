@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Maryland Football Yards per Play - A Hugo website</title>
+<meta property="og:title" content="Maryland Football Yards per Play - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/sportsblog/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/sportsblog/css/fonts.css" media="all">
+<link rel="stylesheet" href="/sportsblog/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/sportsblog/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/sportsblog/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Maryland Football Yards per Play</h1>
+
+    
+    <span class="article-date">2022-10-25</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggrepel)</code></pre>
+<p>Got data</p>
+<pre class="r"><code>pxp_2011_2022 &lt;- read.csv(&quot;https://dwillis.github.io/sports-data-files/footballlogs1122.csv&quot;)</code></pre>
+<pre class="r"><code>pxp_2011_2022 &lt;- pxp_2011_2022 %&gt;% 
+  mutate(
+    wins = case_when(
+      grepl(&quot;W&quot;, Outcome) ~ 1, 
+      grepl(&quot;L&quot;, Outcome) ~ 0)
+)
+
+ypp &lt;- pxp_2011_2022 %&gt;% 
+  group_by(Team, Season) %&gt;% 
+  summarise(
+    TotalPlays = sum(OffensivePlays), 
+    TotalYards = sum(OffensiveYards), 
+    DefensivePlays = sum(DefPlays), 
+    DefensiveYards = sum(DefYards), 
+    TotalWins = sum(wins)) %&gt;% 
+  mutate(
+    OffensiveYPP = TotalYards/TotalPlays, 
+    DefensiveYPP = DefensiveYards/DefensivePlays)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Team&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>maryland_ypp &lt;- ypp %&gt;% filter(Team == &quot;Maryland&quot;)
+
+
+ypp %&gt;% 
+  ungroup() %&gt;% 
+  summarise(
+    offense = mean(OffensiveYPP), 
+    defense = mean(DefensiveYPP)
+    )</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   offense defense
+##     &lt;dbl&gt;   &lt;dbl&gt;
+## 1    5.74    5.61</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;grey&quot;, 
+    alpha=.5) + 
+  geom_point(
+    data=maryland_ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;red&quot;) + 
+  geom_vline(xintercept = 5.740913) + 
+  geom_hline(yintercept = 5.612793) +
+  geom_text_repel(
+    data=maryland_ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, label=Season)
+  ) +
+  labs(title=&quot;The 2022-2023 Maryland offense is clicking through four games&quot;, subtitle=&quot;Through four games, the Terps&#39; offense averages nearly seven yards per play.&quot;, caption=&quot;Source: NCAA | By Varun Shankar&quot;)  + theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/10/25/maryland-football-yards-per-play/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+The 2022-2023 Maryland Terrapins offense averages nearly seven yards per play, the highest the program has achieved since 2011-2012 season and over a full yard above the nation’s average in the 12-year timeframe. This year’s Terps’ defense is also the third best in that time frame with slightly over five yards per play allowed.</p>
+<p>Most Maryland teams find themselves around the cluster in the middle of the graph, around average. Three different teams, 2017-2018, 2018-2019, and 2015-2016 are all close to the average defensive yards per play allowed.</p>
+<p>The worst Maryland offense came in 2012-2013, a year where they started Perry Hills seven games at quarterback. The worst defense came in Mike Locksley’s first year, 2019-2020.</p>
+<p>Locksley’s teams have shown some level of improvement across seasons. They started poorly offensively with the 19-20 campaign, improved drastically offensively in the COVID-shortened 2020-2021 season, regressed in the 21-22 campaign and have shown requisite improvement in 2022-2023. Defensively, the same trend applies, with the worst season happening in 2019-2020, the next best in 2020-21, then 2021-22 and 2022-23.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/sportsblog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/sportsblog/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
