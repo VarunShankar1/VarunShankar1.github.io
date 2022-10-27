@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Volleyball Aces - A Hugo website</title>
+<meta property="og:title" content="Volleyball Aces - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/sportsblog/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/sportsblog/css/fonts.css" media="all">
+<link rel="stylesheet" href="/sportsblog/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/sportsblog/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/sportsblog/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Volleyball Aces</h1>
+
+    
+    <span class="article-date">2022-10-27</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
+library(ggrepel)
+set.seed(1234)</code></pre>
+<p>Loading data, filtering for players who’ve played above 20 matches, and taking out NAs</p>
+<pre class="r"><code>playerstats &lt;- read.csv(&quot;https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2022.csv&quot;) %&gt;% 
+  filter(gp &gt; 20) %&gt;% 
+  filter(!is.na(aces), !is.na(pos))</code></pre>
+<p>Calculating aces per match</p>
+<pre class="r"><code>playerstats &lt;- playerstats %&gt;%
+mutate(aces_per_match = aces/gp)
+summary(playerstats$aces_per_match)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.1818  0.6190  0.6119  0.9524  3.1200</code></pre>
+<p>Going to use the median value of aces per match as a cutoff, trying to see above-average players in this category</p>
+<pre class="r"><code>playerstats &lt;- playerstats %&gt;% 
+  filter(aces_per_match &gt; 0.6190)
+
+ggplot() + geom_beeswarm(data=playerstats, aes(x=pos, y=aces_per_match), color=&quot;grey&quot;)</code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/10/27/volleyball-aces/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+Making dataset with just Maryland players</p>
+<pre class="r"><code>umd &lt;- playerstats %&gt;% 
+  filter(team == &quot;Maryland Terrapins, Terps&quot;) %&gt;% 
+  filter(aces_per_match &gt; 0.6190) %&gt;% 
+  arrange(desc(aces_per_match))</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_beeswarm(
+    data=playerstats, 
+    groupOnX=TRUE, 
+    aes(x=pos, y=aces_per_match), color=&quot;grey&quot;) + 
+  geom_beeswarm(
+    data=umd, 
+    groupOnX=TRUE, 
+    aes(x=pos, y=aces_per_match), color=&quot;red&quot;) +
+  geom_text_repel(
+    data=umd, 
+    aes(x=pos, y=aces_per_match, label=full_name))  +
+  labs(title=&quot;Sydney Dowler impresses when serving for Maryland volleyball&quot;, subtitle=&quot;The setter outpaces every other Terp in aces per game and is well above average for her position.&quot;, caption=&quot;Source: NCAA | By Varun Shankar&quot;)  + theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/10/27/volleyball-aces/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+Sydney Dowler is very good, that much is clear. She ranks well above her own teammates and many of the other players at her position in aces per game with NCAA players who’ve played above 20 games this season.</p>
+<p>Maryland does have some other impressive servers. Milan Gomillion and Laila Ricks are well above average at their respective positions of libero/defensive specialist and middle blocker. Erin Engel stands slightly above average among setters.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/sportsblog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/sportsblog/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
