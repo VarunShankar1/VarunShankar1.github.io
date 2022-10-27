@@ -108,6 +108,7 @@ Making dataset with just Maryland players</p>
   filter(team == &quot;Maryland Terrapins, Terps&quot;) %&gt;% 
   filter(aces_per_match &gt; 0.6190) %&gt;% 
   arrange(desc(aces_per_match))</code></pre>
+<p>Here’s the graph, one for all players, one for umd players that’s colored reds and then labels for the player names.</p>
 <pre class="r"><code>ggplot() + 
   geom_beeswarm(
     data=playerstats, 
