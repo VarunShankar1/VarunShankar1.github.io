@@ -6,7 +6,17 @@
     <description>Recent content on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Are College Football Teams Passing More on First Down?</title>
+      <link>https://VarunShankar1.github.io/sportsblog/2022/11/10/are-college-football-teams-passing-more-on-first-down/</link>
+      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://VarunShankar1.github.io/sportsblog/2022/11/10/are-college-football-teams-passing-more-on-first-down/</guid>
+      <description>library(tidyverse) library(ggrepel) library(cfbfastR) library(tictoc) tictoc::tic() seasons &amp;lt;- 2014:cfbfastR:::most_recent_cfb_season() progressr::with_progress({ pbp &amp;lt;- cfbfastR::load_cfb_pbp(seasons) }) play_types &amp;lt;- pbp %&amp;gt;% select(pass_attempt, pass, sack) I’m defining first downs passes as plays on first down that are registered as passes — because those include sacks as well as plays where the ball is thrown by an offensive player.
+first_down_pass &amp;lt;- pbp %&amp;gt;% filter(down == 1, pass == 1) %&amp;gt;% group_by(year) %&amp;gt;% summarize(pass = n()) first_downs &amp;lt;- pbp %&amp;gt;% filter(down == 1) %&amp;gt;% group_by(year) %&amp;gt;% summarize(firsts = n()) final_data_table &amp;lt;- first_down_pass %&amp;gt;% inner_join(first_downs, by=c(&amp;quot;year&amp;quot;)) %&amp;gt;% mutate(first_down_pass_perc = pass/firsts) %&amp;gt;% arrange(desc(first_down_pass_perc)) ggplot() + geom_line(data=final_data_table, aes(x=year, y=first_down_pass_perc)) + scale_y_continuous(limits = c(.</description>
+    </item>
+    
     <item>
       <title>NFL Redzone EPA Reverse Engineering</title>
       <link>https://VarunShankar1.github.io/sportsblog/2022/11/01/nfl-redzone-epa-reverse-engineering/</link>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Are College Football Teams Passing More on First Down? - A Hugo website</title>
+<meta property="og:title" content="Are College Football Teams Passing More on First Down? - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/sportsblog/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/sportsblog/css/fonts.css" media="all">
+<link rel="stylesheet" href="/sportsblog/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/sportsblog/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/sportsblog/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Are College Football Teams Passing More on First Down?</h1>
+
+    
+    <span class="article-date">2022-11-10</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)
+library(ggrepel)
+library(cfbfastR)
+library(tictoc)
+tictoc::tic()
+seasons &lt;- 2014:cfbfastR:::most_recent_cfb_season()
+progressr::with_progress({
+
+  pbp &lt;- cfbfastR::load_cfb_pbp(seasons)
+})</code></pre>
+<pre class="r"><code>play_types &lt;- pbp %&gt;% 
+  select(pass_attempt, pass, sack)</code></pre>
+<p>I’m defining first downs passes as plays on first down that are registered as passes — because those include sacks as well as plays where the ball is thrown by an offensive player.</p>
+<pre class="r"><code>first_down_pass &lt;- pbp %&gt;% 
+  filter(down == 1, pass == 1) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(pass = n())
+
+first_downs &lt;- pbp %&gt;% 
+  filter(down == 1) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(firsts = n())</code></pre>
+<pre class="r"><code>final_data_table &lt;- first_down_pass %&gt;%  inner_join(first_downs, by=c(&quot;year&quot;)) %&gt;% 
+  mutate(first_down_pass_perc = pass/firsts) %&gt;% 
+  arrange(desc(first_down_pass_perc))</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_line(data=final_data_table, aes(x=year, y=first_down_pass_perc)) +
+  scale_y_continuous(limits = c(.2, .4))+ 
+  theme_minimal() + 
+  labs(title = &quot;The percentage of first down passes has increased marginally since 2014&quot;, y=&quot;First Down Pass Percentage&quot;, subtitle=&quot;On average, college football teams throw the ball on less than a third of first downs.&quot;, caption=&quot;Source: CFB Stats | By Varun Shankar&quot;) </code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/11/10/are-college-football-teams-passing-more-on-first-down/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>big_first_down_pass &lt;- pbp %&gt;% 
+  filter(down == 1, pass == 1, offense_conference == &quot;Big Ten&quot;) %&gt;% 
+  group_by(year, pos_team) %&gt;% 
+  summarize(pass = n())
+
+Big_first_downs &lt;- pbp %&gt;% 
+  filter(down == 1, offense_conference == &quot;Big Ten&quot;) %&gt;% 
+  group_by(year, pos_team) %&gt;% 
+  summarize(firsts = n())
+
+big_final_data_table &lt;- big_first_down_pass %&gt;%  inner_join(Big_first_downs, by=c(&quot;year&quot;, &quot;pos_team&quot;)) %&gt;% 
+  mutate(first_down_pass_perc = pass/firsts) %&gt;% 
+  arrange(desc(first_down_pass_perc))
+
+
+ggplot() + 
+  geom_line(data=big_final_data_table, aes(x=year, y=first_down_pass_perc, group=pos_team)) + 
+  geom_line(data=big_final_data_table, aes(x=year, y=mean(first_down_pass_perc)), color = &quot;blue&quot;) + 
+  scale_y_continuous(limits = c(0, .7)) + 
+  facet_wrap(~pos_team)</code></pre>
+<p><img src="https://VarunShankar1.github.io/sportsblog/2022/11/10/are-college-football-teams-passing-more-on-first-down/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+Maryland shifted from being a run-heavy offense on first down to being well above average in the last few years since they got Taulia. Illinois has dramatically decreased its first down run rate. Ohio State has leaned more pass-heavy, which makes sense as they’ve had great quarterbacks in Fields and Stroud. Iowa is surprisingly about average, would’ve expected them to be worse.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/sportsblog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/sportsblog/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
