@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>What Defines a Kevin Willard Team? - A Hugo website</title>
+<meta property="og:title" content="What Defines a Kevin Willard Team? - A Hugo website">
+
+
+  <link href='https://VarunShankar1.github.io/sportsblog/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/sportsblog/css/fonts.css" media="all">
+<link rel="stylesheet" href="/sportsblog/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/sportsblog/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/sportsblog/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">What Defines a Kevin Willard Team?</h1>
+
+    
+    <span class="article-date">2022-11-15</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>boxscores &lt;- read.csv(&quot;https://dwillis.github.io/sports-data-files/cbblogs1522.csv&quot;)</code></pre>
+<pre class="r"><code>all_teams &lt;- boxscores %&gt;% 
+  group_by(TeamFull) %&gt;% 
+  summarise(games = n(), ptspergame = mean(TeamScore), ptsallowedpergame = mean(OpponentScore), threerate &lt;- sum(Team3PA)/sum(TeamFGA), steals = mean(TeamSteals), blocks = mean(TeamBlocks), pace = mean(TeamFGA)+mean(OpponentFGA), oppthreepointrate = sum(Opponent3PA)/sum(OpponentFGA), Freethrows = mean(TeamFTA))
+
+
+willard_era &lt;- boxscores %&gt;% 
+  filter(TeamFull == &quot;Seton Hall Pirates&quot;) %&gt;% 
+  group_by(TeamFull) %&gt;% 
+  summarise(games = n(), ptspergame = mean(TeamScore), ptsallowedpergame = mean(OpponentScore), threerate &lt;- sum(Team3PA)/sum(TeamFGA), steals = mean(TeamSteals), blocks = mean(TeamBlocks), pace = mean(TeamFGA)+mean(OpponentFGA), oppthreepointrate = sum(Opponent3PA)/sum(OpponentFGA), Freethrows = mean(TeamFTA))</code></pre>
+<pre class="r"><code>summary(all_teams)</code></pre>
+<pre><code>##    TeamFull             games         ptspergame    ptsallowedpergame
+##  Length:364         Min.   : 29.0   Min.   :61.57   Min.   :57.56    
+##  Class :character   1st Qu.:187.0   1st Qu.:69.18   1st Qu.:68.11    
+##  Mode  :character   Median :226.0   Median :71.28   Median :70.53    
+##                     Mean   :207.8   Mean   :71.43   Mean   :70.66    
+##                     3rd Qu.:244.0   3rd Qu.:73.45   3rd Qu.:73.15    
+##                     Max.   :263.0   Max.   :89.12   Max.   :84.60    
+##                                                     NA&#39;s   :1        
+##  threerate &lt;- sum(Team3PA)/sum(TeamFGA)     steals          blocks     
+##  Min.   :0.2581                         Min.   :4.389   Min.   :1.267  
+##  1st Qu.:0.3457                         1st Qu.:5.799   1st Qu.:2.840  
+##  Median :0.3697                         Median :6.279   Median :3.230  
+##  Mean   :0.3707                         Mean   :6.333   Mean   :3.304  
+##  3rd Qu.:0.3916                         3rd Qu.:6.721   3rd Qu.:3.705  
+##  Max.   :0.5152                         Max.   :9.742   Max.   :5.419  
+##  NA&#39;s   :2                              NA&#39;s   :2       NA&#39;s   :2      
+##       pace       oppthreepointrate   Freethrows   
+##  Min.   :104.0   Min.   :0.2888    Min.   :13.40  
+##  1st Qu.:112.4   1st Qu.:0.3533    1st Qu.:18.00  
+##  Median :114.9   Median :0.3706    Median :19.26  
+##  Mean   :114.9   Mean   :0.3712    Mean   :19.17  
+##  3rd Qu.:117.3   3rd Qu.:0.3870    3rd Qu.:20.40  
+##  Max.   :127.7   Max.   :0.4768    Max.   :24.19  
+##  NA&#39;s   :3       NA&#39;s   :3         NA&#39;s   :2</code></pre>
+<pre class="r"><code>willard_era</code></pre>
+<pre><code>## # A tibble: 1 × 10
+##   TeamFull     games ptspe…¹ ptsal…² three…³ steals blocks  pace oppth…⁴ Freet…⁵
+##   &lt;chr&gt;        &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Seton Hall …   117    72.1    68.1   0.370   6.60   4.89  116.   0.337    20.4
+## # … with abbreviated variable names ¹​ptspergame, ²​ptsallowedpergame,
+## #   ³​`threerate &lt;- sum(Team3PA)/sum(TeamFGA)`, ⁴​oppthreepointrate, ⁵​Freethrows</code></pre>
+<p>What you can see from this statistical profile of Kevin Willard’s teams is that his teams score more than the average team in this data set. They are also above average in points allowed per game, both of these make sense considering the fact that he was a successful coach during his tenure at Seton Hall. His teams were strong defensively, slightly above average in steals and blocks per game. They placed slightly faster than the average team and did not give up an excessive amount of three-pointers, with a below average opponent three-point rate. They got to the line slightly more often than the average team did.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/sportsblog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/sportsblog/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

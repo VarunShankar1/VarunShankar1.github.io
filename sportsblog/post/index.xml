@@ -6,7 +6,16 @@
     <description>Recent content in Posts on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 10 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://VarunShankar1.github.io/sportsblog/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What Defines a Kevin Willard Team?</title>
+      <link>https://VarunShankar1.github.io/sportsblog/2022/11/15/what-defines-a-kevin-willard-team/</link>
+      <pubDate>Tue, 15 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://VarunShankar1.github.io/sportsblog/2022/11/15/what-defines-a-kevin-willard-team/</guid>
+      <description>knitr::opts_chunk$set(echo = TRUE) library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.4 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() boxscores &amp;lt;- read.csv(&amp;quot;https://dwillis.github.io/sports-data-files/cbblogs1522.csv&amp;quot;) all_teams &amp;lt;- boxscores %&amp;gt;% group_by(TeamFull) %&amp;gt;% summarise(games = n(), ptspergame = mean(TeamScore), ptsallowedpergame = mean(OpponentScore), threerate &amp;lt;- sum(Team3PA)/sum(TeamFGA), steals = mean(TeamSteals), blocks = mean(TeamBlocks), pace = mean(TeamFGA)+mean(OpponentFGA), oppthreepointrate = sum(Opponent3PA)/sum(OpponentFGA), Freethrows = mean(TeamFTA)) willard_era &amp;lt;- boxscores %&amp;gt;% filter(TeamFull == &amp;quot;Seton Hall Pirates&amp;quot;) %&amp;gt;% group_by(TeamFull) %&amp;gt;% summarise(games = n(), ptspergame = mean(TeamScore), ptsallowedpergame = mean(OpponentScore), threerate &amp;lt;- sum(Team3PA)/sum(TeamFGA), steals = mean(TeamSteals), blocks = mean(TeamBlocks), pace = mean(TeamFGA)+mean(OpponentFGA), oppthreepointrate = sum(Opponent3PA)/sum(OpponentFGA), Freethrows = mean(TeamFTA)) summary(all_teams) ## TeamFull games ptspergame ptsallowedpergame ## Length:364 Min.</description>
+    </item>
+    
     <item>
       <title>Are College Football Teams Passing More on First Down?</title>
       <link>https://VarunShankar1.github.io/sportsblog/2022/11/10/are-college-football-teams-passing-more-on-first-down/</link>
